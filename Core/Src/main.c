@@ -145,10 +145,19 @@ FRESULT read_filename(char* path, DIR dir, char* fname);
 #define PRINTF
 
 // WARNING UART6 is connected to st-link
-int _write(int file, char *ptr, int len)
+//int _write(int file, char *ptr, int len)
+//{
+//	HAL_UART_Transmit(&huart1,(uint8_t *)ptr,len,10);
+//	return len;
+//}
+
+int _write(int32_t file, uint8_t *ptr, int32_t len)
 {
-	HAL_UART_Transmit(&huart1,(uint8_t *)ptr,len,10);
-	return len;
+    for (int i = 0; i < len; i++)
+    {
+        ITM_SendChar(*ptr++);
+    }
+    return len;
 }
 
 static void LCD_Config(void)
